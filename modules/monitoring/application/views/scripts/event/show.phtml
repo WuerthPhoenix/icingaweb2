@@ -17,6 +17,7 @@ use Icinga\Module\Monitoring\Object\Service;
     ?>
 </div>
 <div class="content">
+    <h2><?= $this->escape($this->translate('Event Details')) ?></h2>
     <table class="name-value-table" data-base-target="_next">
         <?php
         foreach ($details as $detail) {
