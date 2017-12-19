@@ -369,13 +369,13 @@ class EventController extends Controller
         switch ($dataView) {
             case 'downtimeevent':
                 return array(
+                    array($this->translate('Entry time'), $this->time($event->entry_time)),
                     array($this->translate('Is fixed'), $this->yesOrNo($event->is_fixed)),
                     array($this->translate('Author'), $this->contact($event->author_name)),
                     array($this->translate('Was started'), $this->yesOrNo($event->was_started)),
                     array($this->translate('Was cancelled'), $this->yesOrNo($event->was_cancelled)),
                     array($this->translate('Is in effect'), $this->yesOrNo($event->is_in_effect)),
                     array($this->translate('Duration'), $this->duration($event->duration)),
-                    array($this->translate('Entry time'), $this->time($event->entry_time)),
                     array($this->translate('Trigger time'), $this->time($event->trigger_time)),
                     array($this->translate('Scheduled start time'), $this->time($event->scheduled_start_time)),
                     array($this->translate('Actual start time'), $this->time($event->actual_start_time)),
@@ -413,10 +413,10 @@ class EventController extends Controller
                 }
 
                 return array(
+                    array($this->translate('Time'), $this->time($event->comment_time)),
                     array($this->translate('Source'), $this->view->escape($commentSource)),
                     array($this->translate('Entry type'), $this->view->escape($entryType)),
                     array($this->translate('Author'), $this->contact($event->author_name)),
-                    array($this->translate('Time'), $this->time($event->comment_time)),
                     array($this->translate('Is persistent'), $this->yesOrNo($event->is_persistent)),
                     array($this->translate('Expires'), $this->yesOrNo($event->expires)),
                     array($this->translate('Expiration time'), $this->time($event->expiration_time)),
@@ -436,8 +436,8 @@ class EventController extends Controller
                 }
 
                 return array(
-                    array($this->translate('Reason'), $this->view->escape($reasonType)),
                     array($this->translate('Event time'), $this->time($event->event_time)),
+                    array($this->translate('Reason'), $this->view->escape($reasonType)),
                     array($this->translate('State change'), $this->percent($event->percent_state_change)),
                     array($this->translate('Low threshold'), $this->percent($event->low_threshold)),
                     array($this->translate('High threshold'), $this->percent($event->high_threshold))
@@ -476,10 +476,10 @@ class EventController extends Controller
                 }
 
                 return array(
-                    array($this->translate('Reason'), $this->view->escape($notificationReason)),
-                    array($this->translate('State'), $this->state($event->service_description !== null, $event->state)),
                     array($this->translate('Start time'), $this->time($event->start_time)),
                     array($this->translate('End time'), $this->time($event->end_time)),
+                    array($this->translate('Reason'), $this->view->escape($notificationReason)),
+                    array($this->translate('State'), $this->state($event->service_description !== null, $event->state)),
                     array($this->translate('Escalated'), $this->yesOrNo($event->escalated)),
                     array($this->translate('Contacts notified'), (int) $event->contacts_notified),
                     array($this->translate('Output'), $this->pluginOutput($event->output)),
