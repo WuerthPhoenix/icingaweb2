@@ -72,9 +72,12 @@ class EventController extends Controller
             : new Service($this->backend, $event->host_name, $event->service_description);
         $object->fetch();
 
-        $this->view->details = $this->getDetails($dataView, $event);
-
         list($icon, $label) = $this->getIconAndLabel($type);
+
+        $this->view->details = array_merge(
+            array(array($this->view->escape($this->translate('Type')), $label)),
+            $this->getDetails($dataView, $event)
+        );
 
         $this->getTabs()
             ->add('event', array(
