@@ -371,7 +371,6 @@ class EventController extends Controller
                 return array(
                     array($this->translate('Is fixed'), $this->yesOrNo($event->is_fixed)),
                     array($this->translate('Author'), $this->contact($event->author_name)),
-                    array($this->translate('Comment'), $this->comment($event->comment_data)),
                     array($this->translate('Was started'), $this->yesOrNo($event->was_started)),
                     array($this->translate('Was cancelled'), $this->yesOrNo($event->was_cancelled)),
                     array($this->translate('Is in effect'), $this->yesOrNo($event->is_in_effect)),
@@ -381,7 +380,8 @@ class EventController extends Controller
                     array($this->translate('Scheduled start time'), $this->time($event->scheduled_start_time)),
                     array($this->translate('Actual start time'), $this->time($event->actual_start_time)),
                     array($this->translate('Scheduled end time'), $this->time($event->scheduled_end_time)),
-                    array($this->translate('Actual end time'), $this->time($event->actual_end_time))
+                    array($this->translate('Actual end time'), $this->time($event->actual_end_time)),
+                    array($this->translate('Comment'), $this->comment($event->comment_data))
                 );
             case 'commentevent':
                 switch ($event->entry_type) {
@@ -417,11 +417,11 @@ class EventController extends Controller
                     array($this->translate('Entry type'), $this->view->escape($entryType)),
                     array($this->translate('Author'), $this->contact($event->author_name)),
                     array($this->translate('Time'), $this->time($event->comment_time)),
-                    array($this->translate('Message'), $this->comment($event->comment_data)),
                     array($this->translate('Is persistent'), $this->yesOrNo($event->is_persistent)),
                     array($this->translate('Expires'), $this->yesOrNo($event->expires)),
                     array($this->translate('Expiration time'), $this->time($event->expiration_time)),
-                    array($this->translate('Deletion time'), $this->time($event->deletion_time))
+                    array($this->translate('Deletion time'), $this->time($event->deletion_time)),
+                    array($this->translate('Message'), $this->comment($event->comment_data))
                 );
             case 'flappingevent':
                 switch ($event->reason_type) {
@@ -478,12 +478,12 @@ class EventController extends Controller
                 return array(
                     array($this->translate('Reason'), $this->view->escape($notificationReason)),
                     array($this->translate('State'), $this->state($event->service_description !== null, $event->state)),
-                    array($this->translate('Output'), $this->pluginOutput($event->output)),
-                    array($this->translate('Long output'), $this->pluginOutput($event->long_output)),
                     array($this->translate('Start time'), $this->time($event->start_time)),
                     array($this->translate('End time'), $this->time($event->end_time)),
                     array($this->translate('Escalated'), $this->yesOrNo($event->escalated)),
                     array($this->translate('Contacts notified'), (int) $event->contacts_notified),
+                    array($this->translate('Output'), $this->pluginOutput($event->output)),
+                    array($this->translate('Long output'), $this->pluginOutput($event->long_output))
                 );
             case 'statechangeevent':
                 $isService = $event->service_description !== null;
