@@ -13,7 +13,6 @@ class Downtimeevent extends DataView
             'downtimeevent_author_name',
             'downtimeevent_comment_data',
             'downtimeevent_is_fixed',
-            'downtimeevent_duration',
             'downtimeevent_scheduled_start_time',
             'downtimeevent_scheduled_end_time',
             'downtimeevent_was_started',
