@@ -55,8 +55,6 @@ class EventController extends Controller
             $this->httpNotFound($this->translate('Event not found'));
         }
 
-        $dataView = $this->dataViewsByType[$type];
-
         $query = $this->query($type, $id);
 
         $this->applyRestriction('monitoring/filter/objects', $query);
@@ -76,7 +74,7 @@ class EventController extends Controller
 
         $this->view->details = array_merge(
             array(array($this->view->escape($this->translate('Type')), $label)),
-            $this->getDetails($dataView, $event)
+            $this->getDetails($type, $event)
         );
 
         $this->getTabs()
@@ -361,30 +359,50 @@ class EventController extends Controller
     /**
      * Return the given event's data prepared for a name-value table
      *
-     * @param   string      $dataView
+     * @param   string      $type
      * @param   \stdClass   $event
      *
      * @return  string[][]
      */
-    protected function getDetails($dataView, $event)
+    protected function getDetails($type, $event)
     {
-        switch ($dataView) {
-            case 'downtimeevent':
-                return array(
+        switch ($type) {
+            case 'dt_start':
+            case 'dt_end':
+                $details = array(array(
                     array($this->translate('Entry time'), $this->time($event->entry_time)),
                     array($this->translate('Is fixed'), $this->yesOrNo($event->is_fixed)),
-                    array($this->translate('Author'), $this->contact($event->author_name)),
-                    array($this->translate('Was started'), $this->yesOrNo($event->was_started)),
-                    array($this->translate('Was cancelled'), $this->yesOrNo($event->was_cancelled)),
                     array($this->translate('Is in effect'), $this->yesOrNo($event->is_in_effect)),
+                    array($this->translate('Was started'), $this->yesOrNo($event->was_started))
+                ));
+
+                if ($type === 'dt_end') {
+                    $details[] = array(array($this->translate('Was cancelled'), $this->yesOrNo($event->was_cancelled)));
+                }
+
+                $details[] = array(
                     array($this->translate('Trigger time'), $this->time($event->trigger_time)),
                     array($this->translate('Scheduled start time'), $this->time($event->scheduled_start_time)),
                     array($this->translate('Actual start time'), $this->time($event->actual_start_time)),
-                    array($this->translate('Scheduled end time'), $this->time($event->scheduled_end_time)),
-                    array($this->translate('Actual end time'), $this->time($event->actual_end_time)),
+                    array($this->translate('Scheduled end time'), $this->time($event->scheduled_end_time))
+                );
+
+                if ($type === 'dt_end') {
+                    $details[] = array(array($this->translate('Actual end time'), $this->time($event->actual_end_time)));
+                }
+
+                $details[] = array(
+                    array($this->translate('Author'), $this->contact($event->author_name)),
                     array($this->translate('Comment'), $this->comment($event->comment_data), 'output')
                 );
-            case 'commentevent':
+
+                return call_user_func_array('array_merge', $details);
+            case 'comment':
+            case 'comment_deleted':
+            case 'ack':
+            case 'ack_deleted':
+            case 'dt_comment':
+            case 'dt_comment_deleted':
                 switch ($event->entry_type) {
                     case 'comment':
                         $entryType = $this->translate('User comment');
@@ -424,7 +442,8 @@ class EventController extends Controller
                     array($this->translate('Deletion time'), $this->time($event->deletion_time)),
                     array($this->translate('Message'), $this->comment($event->comment_data), 'output')
                 );
-            case 'flappingevent':
+            case 'flapping':
+            case 'flapping_deleted':
                 switch ($event->reason_type) {
                     case 'stopped':
                         $reasonType = $this->translate('Flapping stopped normally');
@@ -443,7 +462,7 @@ class EventController extends Controller
                     array($this->translate('Low threshold'), $this->percent($event->low_threshold)),
                     array($this->translate('High threshold'), $this->percent($event->high_threshold))
                 );
-            case 'notificationevent':
+            case 'notify':
                 switch ($event->notification_reason) {
                     case 'normal_notification':
                         $notificationReason = $this->translate('Normal notification');
@@ -486,7 +505,8 @@ class EventController extends Controller
                     array($this->translate('Output'), $this->pluginOutput($event->output), 'output'),
                     array($this->translate('Long output'), $this->pluginOutput($event->long_output), 'long-output')
                 );
-            case 'statechangeevent':
+            case 'hard_state':
+            case 'soft_state':
                 $isService = $event->service_description !== null;
 
                 return array(
