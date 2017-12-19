@@ -17,8 +17,8 @@ class Notificationevent extends DataView
             'notificationevent_long_output',
             'notificationevent_escalated',
             'notificationevent_contacts_notified',
-            'object_host_name',
-            'object_service_description'
+            'host_name',
+            'service_description'
         );
     }
 

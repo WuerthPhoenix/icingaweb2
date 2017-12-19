@@ -35,8 +35,8 @@ EOF
             'notificationevent_contacts_notified'   => 'n.contacts_notified'
         ),
         'object' => array(
-            'object_host_name'              => 'o.name1',
-            'object_service_description'    => 'o.name2'
+            'host_name'             => 'o.name1',
+            'service_description'   => 'o.name2'
         )
     );
 

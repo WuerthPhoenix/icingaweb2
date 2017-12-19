@@ -15,8 +15,8 @@ class Flappingevent extends DataView
             'flappingevent_percent_state_change',
             'flappingevent_low_threshold',
             'flappingevent_high_threshold',
-            'object_host_name',
-            'object_service_description'
+            'host_name',
+            'service_description'
         );
     }
 

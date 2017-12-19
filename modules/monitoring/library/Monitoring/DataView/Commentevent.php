@@ -18,8 +18,8 @@ class Commentevent extends DataView
             'commentevent_expires',
             'commentevent_expiration_time',
             'commentevent_deletion_time',
-            'object_host_name',
-            'object_service_description'
+            'host_name',
+            'service_description'
         );
     }
 

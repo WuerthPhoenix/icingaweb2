@@ -22,8 +22,8 @@ class Downtimeevent extends DataView
             'downtimeevent_was_cancelled',
             'downtimeevent_is_in_effect',
             'downtimeevent_trigger_time',
-            'object_host_name',
-            'object_service_description'
+            'host_name',
+            'service_description'
         );
     }
 

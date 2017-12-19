@@ -288,8 +288,8 @@ class EventController extends Controller
                         'was_cancelled'         => 'downtimeevent_was_cancelled',
                         'is_in_effect'          => 'downtimeevent_is_in_effect',
                         'trigger_time'          => 'downtimeevent_trigger_time',
-                        'host_name'             => 'object_host_name',
-                        'service_description'   => 'object_service_description'
+                        'host_name',
+                        'service_description'
                     ))
                     ->where('downtimeevent_id', $id);
             case 'commentevent':
@@ -304,8 +304,8 @@ class EventController extends Controller
                         'expires'               => 'commentevent_expires',
                         'expiration_time'       => 'commentevent_expiration_time',
                         'deletion_time'         => 'commentevent_deletion_time',
-                        'host_name'             => 'object_host_name',
-                        'service_description'   => 'object_service_description'
+                        'host_name',
+                        'service_description'
                     ))
                     ->where('commentevent_id', $id);
             case 'flappingevent':
@@ -316,8 +316,8 @@ class EventController extends Controller
                         'percent_state_change'  => 'flappingevent_percent_state_change',
                         'low_threshold'         => 'flappingevent_low_threshold',
                         'high_threshold'        => 'flappingevent_high_threshold',
-                        'host_name'             => 'object_host_name',
-                        'service_description'   => 'object_service_description'
+                        'host_name',
+                        'service_description'
                     ))
                     ->where('flappingevent_id', $id)
                     ->where('flappingevent_event_type', $type);
@@ -332,8 +332,8 @@ class EventController extends Controller
                         'long_output'           => 'notificationevent_long_output',
                         'escalated'             => 'notificationevent_escalated',
                         'contacts_notified'     => 'notificationevent_contacts_notified',
-                        'host_name'             => 'object_host_name',
-                        'service_description'   => 'object_service_description'
+                        'host_name',
+                        'service_description'
                     ))
                     ->where('notificationevent_id', $id);
             case 'statechangeevent':
@@ -347,8 +347,8 @@ class EventController extends Controller
                         'last_hard_state'       => 'statechangeevent_last_hard_state',
                         'output'                => 'statechangeevent_output',
                         'long_output'           => 'statechangeevent_long_output',
-                        'host_name'             => 'object_host_name',
-                        'service_description'   => 'object_service_description'
+                        'host_name',
+                        'service_description'
                     ))
                     ->where('statechangeevent_id', $id)
                     ->where('statechangeevent_state_change', 1)
