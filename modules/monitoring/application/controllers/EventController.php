@@ -384,7 +384,7 @@ class EventController extends Controller
                     array($this->translate('Actual start time'), $this->time($event->actual_start_time)),
                     array($this->translate('Scheduled end time'), $this->time($event->scheduled_end_time)),
                     array($this->translate('Actual end time'), $this->time($event->actual_end_time)),
-                    array($this->translate('Comment'), $this->comment($event->comment_data))
+                    array($this->translate('Comment'), $this->comment($event->comment_data), 'output')
                 );
             case 'commentevent':
                 switch ($event->entry_type) {
@@ -424,7 +424,7 @@ class EventController extends Controller
                     array($this->translate('Expires'), $this->yesOrNo($event->expires)),
                     array($this->translate('Expiration time'), $this->time($event->expiration_time)),
                     array($this->translate('Deletion time'), $this->time($event->deletion_time)),
-                    array($this->translate('Message'), $this->comment($event->comment_data))
+                    array($this->translate('Message'), $this->comment($event->comment_data), 'output')
                 );
             case 'flappingevent':
                 switch ($event->reason_type) {
@@ -485,8 +485,8 @@ class EventController extends Controller
                     array($this->translate('State'), $this->state($event->service_description !== null, $event->state)),
                     array($this->translate('Escalated'), $this->yesOrNo($event->escalated)),
                     array($this->translate('Contacts notified'), (int) $event->contacts_notified),
-                    array($this->translate('Output'), $this->pluginOutput($event->output)),
-                    array($this->translate('Long output'), $this->pluginOutput($event->long_output))
+                    array($this->translate('Output'), $this->pluginOutput($event->output), 'output'),
+                    array($this->translate('Long output'), $this->pluginOutput($event->long_output), 'long-output')
                 );
             case 'statechangeevent':
                 $isService = $event->service_description !== null;
@@ -501,8 +501,8 @@ class EventController extends Controller
                     array($this->translate('State time'), $this->time($event->state_time)),
                     array($this->translate('Last state'), $this->state($isService, $event->last_state)),
                     array($this->translate('Last hard state'), $this->state($isService, $event->last_hard_state)),
-                    array($this->translate('Output'), $this->pluginOutput($event->output)),
-                    array($this->translate('Long output'), $this->pluginOutput($event->long_output))
+                    array($this->translate('Output'), $this->pluginOutput($event->output), 'output'),
+                    array($this->translate('Long output'), $this->pluginOutput($event->long_output), 'long-output')
                 );
         }
     }
