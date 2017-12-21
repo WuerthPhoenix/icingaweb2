@@ -520,13 +520,13 @@ class EventController extends Controller
                 $isService = $event->service_description !== null;
 
                 $details = array(
+                    array($this->translate('State time'), $this->time($event->state_time)),
                     array($this->translate('State'), $this->state($isService, $event->state)),
                     array($this->translate('Check attempt'), $this->view->escape(sprintf(
                         $this->translate('%d of %d'),
                         (int) $event->current_check_attempt,
                         (int) $event->max_check_attempts
                     ))),
-                    array($this->translate('State time'), $this->time($event->state_time)),
                     array($this->translate('Last state'), $this->state($isService, $event->last_state)),
                     array($this->translate('Last hard state'), $this->state($isService, $event->last_hard_state)),
                     array($this->translate('Output'), $this->pluginOutput($event->output), 'output')
