@@ -495,21 +495,30 @@ class EventController extends Controller
                         $notificationReason = $this->translate('N/A');
                 }
 
-                return array(
+                $details = array(
                     array($this->translate('Start time'), $this->time($event->start_time)),
                     array($this->translate('End time'), $this->time($event->end_time)),
                     array($this->translate('Reason'), $this->view->escape($notificationReason)),
                     array($this->translate('State'), $this->state($event->service_description !== null, $event->state)),
                     array($this->translate('Escalated'), $this->yesOrNo($event->escalated)),
                     array($this->translate('Contacts notified'), (int) $event->contacts_notified),
-                    array($this->translate('Output'), $this->pluginOutput($event->output), 'output'),
-                    array($this->translate('Long output'), $this->pluginOutput($event->long_output), 'long-output')
+                    array($this->translate('Output'), $this->pluginOutput($event->output), 'output')
                 );
+
+                if (trim((string) $event->long_output) !== '') {
+                    $details[] = array(
+                        $this->translate('Long output'),
+                        $this->pluginOutput($event->long_output),
+                        'long-output'
+                    );
+                }
+
+                return $details;
             case 'hard_state':
             case 'soft_state':
                 $isService = $event->service_description !== null;
 
-                return array(
+                $details = array(
                     array($this->translate('State'), $this->state($isService, $event->state)),
                     array($this->translate('Check attempt'), $this->view->escape(sprintf(
                         $this->translate('%d of %d'),
@@ -519,9 +528,18 @@ class EventController extends Controller
                     array($this->translate('State time'), $this->time($event->state_time)),
                     array($this->translate('Last state'), $this->state($isService, $event->last_state)),
                     array($this->translate('Last hard state'), $this->state($isService, $event->last_hard_state)),
-                    array($this->translate('Output'), $this->pluginOutput($event->output), 'output'),
-                    array($this->translate('Long output'), $this->pluginOutput($event->long_output), 'long-output')
+                    array($this->translate('Output'), $this->pluginOutput($event->output), 'output')
                 );
+
+                if (trim((string) $event->long_output) !== '') {
+                    $details[] = array(
+                        $this->translate('Long output'),
+                        $this->pluginOutput($event->long_output),
+                        'long-output'
+                    );
+                }
+
+                return $details;
         }
     }
 }
