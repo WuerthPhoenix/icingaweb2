@@ -12,8 +12,8 @@ use Icinga\Module\Monitoring\Object\Service;
     }
 
     echo $object instanceof Service
-        ? '<h2>' . $this->translate('Service') . '</h2>' . $this->render('partials/object/service-header.phtml')
-        : '<h2>' . $this->translate('Host') . '</h2>' . $this->render('partials/object/host-header.phtml');
+        ? '<h2>' . $this->translate('Current Service State') . '</h2>' . $this->render('partials/object/service-header.phtml')
+        : '<h2>' . $this->translate('Current Host State') . '</h2>' . $this->render('partials/object/host-header.phtml');
     ?>
 </div>
 <div class="content">
