@@ -586,19 +586,35 @@ form.instance-features span.description, form.object-features span.description {
 }
 
 table.event-details {
-  td.output {
-    background-color: lightgrey;
-
-    div.plugin-output {
-      border: none;
-    }
+  td.output div.plugin-output {
+    background-color: #ebebeb;
+    border: none;
   }
 
-  td.long-output {
-    background-color: whitesmoke;
+  td.long-output div.plugin-output {
+    background-color: #f5f5f5;
+    border: none;
+  }
 
-    div.plugin-output {
-      border: none;
+  .state-badge {
+    &.up, &.ok {
+      color: @color-ok;
+    }
+
+    &.warning {
+      color: @color-warning;
+    }
+
+    &.down, &.critical {
+      color: @color-critical;
+    }
+
+    &.unreachable, &.unknown {
+      color: @color-unknown;
+    }
+
+    &.pending {
+      color: @color-pending;
     }
   }
 }

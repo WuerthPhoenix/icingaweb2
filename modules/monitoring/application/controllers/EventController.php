@@ -196,16 +196,17 @@ class EventController extends Controller
     protected function state($isService, $state)
     {
         if ($state === null) {
-            $state = $this->translate('N/A');
-        } else {
-            try {
-                $state = $isService ? Service::getStateText($state, true) : Host::getStateText($state, true);
-            } catch (InvalidArgumentException $e) {
-                $state = $this->translate('N/A');
-            }
+            return $this->view->escape($this->translate('N/A'));
         }
 
-        return $this->view->escape($state);
+        try {
+            $stateText = $isService ? Service::getStateText($state, true) : Host::getStateText($state, true);
+        } catch (InvalidArgumentException $e) {
+            return $this->view->escape($this->translate('N/A'));
+        }
+
+        return '<span class="state-badge ' . ($isService ? Service::getStateText($state) : Host::getStateText($state))
+            . '">&#9679;</span> ' . $this->view->escape($stateText);
     }
 
     /**
