@@ -51,15 +51,15 @@ class EventController extends Controller
         $type = $this->params->shiftRequired('type');
         $id = $this->params->shiftRequired('id');
 
-        if (! isset($this->dataViewsByType[$type])) {
+        if (! isset($this->dataViewsByType[$type])
+            || $this->applyRestriction(
+                'monitoring/filter/objects',
+                $this->backend->select()->from('eventhistory', array('id'))->where('id', $id)
+            )->fetchRow() === false) {
             $this->httpNotFound($this->translate('Event not found'));
         }
 
-        $query = $this->query($type, $id);
-
-        $this->applyRestriction('monitoring/filter/objects', $query);
-
-        $event = $query->fetchRow();
+        $event = $this->query($type, $id)->fetchRow();
 
         if ($event === false) {
             $this->httpNotFound($this->translate('Event not found'));
