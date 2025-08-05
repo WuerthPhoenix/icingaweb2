@@ -6,7 +6,6 @@ namespace Icinga\Util;
 
 use Icinga\Application\Hook;
 use Icinga\Application\Hook\CspDirectiveHook;
-use Icinga\Application\Hook\CspModuleAnalytics;
 use Icinga\Application\Icinga;
 use Icinga\Application\Logger;
 use Icinga\Authentication\Auth;
@@ -14,6 +13,7 @@ use Icinga\Data\ConfigObject;
 use Icinga\User;
 use Icinga\Web\Response;
 use Icinga\Web\Window;
+use Icinga\Web\Url;
 use RuntimeException;
 use Icinga\Web\Navigation\Navigation;
 use Icinga\Web\Widget\Dashboard;
@@ -271,6 +271,7 @@ class Csp
                 $menuItems[] = ["name" => $item->getName(), "url" => $url->getAbsoluteUrl()];
             }
         }
+
         return $menuItems;
     }
 
@@ -289,11 +290,26 @@ class Csp
         foreach ($dashboard->getPanes() as $pane) {
             foreach ($pane->getDashlets() as $dashlet) {
                 $url = $dashlet->getUrl();
+                // Prefer explicit external URL parameter if present
+                $externalUrl = $url->getParam("url");
+                if ($externalUrl !== null) {
+                    $dashlets[] = [
+                        "name" => $dashlet->getName(),
+                        "url" => $externalUrl
+                    ];
+                    continue;
+                }
+
+                // Otherwise, check if the dashlet URL itself is external
                 if ($url->isExternal()) {
-                    $dashlets[] = ["name" => $dashlet->getName(), "url" => $url->getAbsoluteUrl()];
+                    $dashlets[] = [
+                        "name" => $dashlet->getName(),
+                        "url" => $url->getAbsoluteUrl()
+                    ];
                 }
             }
         }
+
         return $dashlets;
     }
 
